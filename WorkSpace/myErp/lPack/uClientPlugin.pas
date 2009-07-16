@@ -109,6 +109,10 @@ var
 
   plugin: TClientPlugin;
 begin
+  if PluginList.IndexOf(AName) <> -1 then begin
+    exit;
+  end;
+
   libHandle := LoadLibrary(PChar(FormatDllPath(AName)));
 
   if libHandle = 0 then exit;
