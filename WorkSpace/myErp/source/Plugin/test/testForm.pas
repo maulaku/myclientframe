@@ -8,7 +8,6 @@ uses
 
 type
   TfrmTest = class(TfrmChild)
-    qry1: TADOQuery;
   private
     { Private declarations }
   public
