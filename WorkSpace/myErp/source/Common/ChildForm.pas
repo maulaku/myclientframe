@@ -11,20 +11,6 @@ const
   
 type
   TfrmChild = class(TfrmBase)
-    bmChild: TdxBarManager;
-    bbDelete: TdxBarButton;
-    bbModify: TdxBarButton;
-    bbExport: TdxBarButton;
-    bbPrint: TdxBarButton;
-    bbFind: TdxBarButton;
-    alChild: TActionList;
-    act_new: TAction;
-    act_Delete: TAction;
-    act_Edit: TAction;
-    act_Find: TAction;
-    act_Export: TAction;
-    act_print: TAction;
-    bbNew: TdxBarButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }

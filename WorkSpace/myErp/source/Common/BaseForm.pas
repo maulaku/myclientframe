@@ -8,7 +8,6 @@ uses
 
 type
   TfrmBase = class(TForm)
-    ilBase: TImageList;
   private
     { Private declarations }
   public
