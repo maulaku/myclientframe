@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="windows-1250" ?>
+<!-- Generator: TXMLINI 1.x -->
+<xmlini>
+  <Local>
+    <Port>1521</Port>
+    <PassWord>developer</PassWord>
+    <UserName>developer</UserName>
+    <ServerName>192.168.1.252</ServerName>
+    <ProviderName>ORACLE</ProviderName>
+  </Local>
+</xmlini>
