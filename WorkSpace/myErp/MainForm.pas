@@ -7,7 +7,7 @@ uses
   Dialogs, BaseForm, ImgList, dxBar, ComCtrls, ActnList,uClientPlugin;
   
 const
-  WM_MSGCLOSE = WM_User + 100; //定义消息常量;
+  WM_MSGCLOSE = WM_User + 100; //定义消息常量; 子窗体关闭.
 
 type
   TfrmMain = class(TfrmBase)
@@ -31,11 +31,14 @@ type
     bbConfig: TdxBarButton;
     Act_Test: TAction;
     bbTest: TdxBarButton;
+    act_Test1: TAction;
+    dxBarButton1: TdxBarButton;
     procedure act_CloseExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure act_ConfigExecute(Sender: TObject);
     procedure Act_ExitExecute(Sender: TObject);
+    procedure act_Test1Execute(Sender: TObject);
     procedure Act_TestExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
@@ -91,6 +94,12 @@ procedure TfrmMain.Act_ExitExecute(Sender: TObject);
 begin
   inherited;
   close;
+end;
+
+procedure TfrmMain.act_Test1Execute(Sender: TObject);
+begin
+  inherited;
+  FPluginMgr.Load('test1.dll');
 end;
 
 procedure TfrmMain.Act_TestExecute(Sender: TObject);

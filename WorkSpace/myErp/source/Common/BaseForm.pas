@@ -4,10 +4,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, ImgList;
+  Dialogs, ImgList, StdCtrls;
 
 type
   TfrmBase = class(TForm)
+    ilMain: TImageList;
   private
     { Private declarations }
   public

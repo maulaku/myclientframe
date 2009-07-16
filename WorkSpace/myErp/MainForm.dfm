@@ -1,26 +1,28 @@
 inherited frmMain: TfrmMain
-  Left = 444
-  Top = 300
+  Left = 447
+  Top = 271
   Width = 838
   Height = 454
   Caption = #20027#31383#20307
   FormStyle = fsMDIForm
+  Position = poDesigned
   WindowState = wsMaximized
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 12
   object statMain: TStatusBar [0]
     Left = 0
     Top = 403
     Width = 830
     Height = 19
     Panels = <>
+    ParentColor = True
   end
-  inherited ilBase: TImageList
-    Left = 576
-    Top = 24
+  inherited ilMain: TImageList
+    Left = 80
+    Top = 64
   end
   object mbMain: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
@@ -84,6 +86,10 @@ inherited frmMain: TfrmMain
             BeginGroup = True
             Item = bbTest
             Visible = True
+          end
+          item
+            Item = dxBarButton1
+            Visible = True
           end>
         Name = #24037#20855#26639
         OneOnRow = True
@@ -98,7 +104,7 @@ inherited frmMain: TfrmMain
       2)
     Categories.Visibles = (
       True)
-    Images = ilBase
+    Images = ilMain
     LookAndFeel.Kind = lfFlat
     LookAndFeel.NativeStyle = False
     PopupMenuLinks = <>
@@ -148,11 +154,13 @@ inherited frmMain: TfrmMain
     object bbCloseAll: TdxBarButton
       Action = act_CloseAll
       Category = 0
+      ImageIndex = 7
       PaintStyle = psCaptionGlyph
     end
     object bbExit: TdxBarButton
       Action = Act_Exit
       Category = 0
+      ImageIndex = 0
     end
     object bbReLogin: TdxBarButton
       Action = act_reLogin
@@ -161,24 +169,31 @@ inherited frmMain: TfrmMain
     object bbLock: TdxBarButton
       Action = act_Lock
       Category = 0
+      ImageIndex = 24
     end
     object bbClose: TdxBarButton
       Action = act_Close
       Category = 0
+      ImageIndex = 6
       PaintStyle = psCaptionGlyph
     end
     object bbConfig: TdxBarButton
       Action = act_Config
       Category = 0
+      ImageIndex = 2
     end
     object bbTest: TdxBarButton
       Action = Act_Test
       Category = 0
+      ImageIndex = 26
       PaintStyle = psCaptionGlyph
+    end
+    object dxBarButton1: TdxBarButton
+      Action = act_Test1
+      Category = 0
     end
   end
   object alMain: TActionList
-    Images = ilBase
     Left = 40
     Top = 64
     object act_Close: TAction
@@ -226,6 +241,11 @@ inherited frmMain: TfrmMain
       Caption = #27979#35797
       ImageIndex = 23
       OnExecute = Act_TestExecute
+    end
+    object act_Test1: TAction
+      Category = #31995#32479
+      Caption = #27979#35797'1'
+      OnExecute = act_Test1Execute
     end
   end
 end
