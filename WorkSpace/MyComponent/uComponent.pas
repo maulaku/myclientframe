@@ -80,7 +80,7 @@ procedure TPerson.ask;
 -------------------------------------------------------------------------------}
 begin
   if Assigned(FOnBirthday) then
-    FOnBirthday(self,0,'luohuachun');
+    FOnBirthday(self,Fage,FAName);
 end;
 
 constructor TPerson.Create(AOwner: TComponent);
