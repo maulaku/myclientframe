@@ -6,7 +6,7 @@ uses
   Classes,SysUtils,Forms,Windows,uConst;
 
 type
-  TSHOWDLLFORM = procedure;stdcall;
+  TSHOWDLLFORM = Function:THandle;stdcall;
   TCLOSEDLLFORM = procedure;stdcall;
 
   TClientFrame = class;
@@ -130,10 +130,9 @@ begin
     exit;
   plugin.Name := AName;
   plugin.FModuleHandle := libHandle;
-  plugin.FShowDllForm := _ShowDllForm;
+  plugin.FormHandle := _ShowDllForm;
   plugin.FCloseDllForm := _CloseDllForm;
 
-  plugin.ShowDllForm;
   PluginList.AddObject(plugin.Name,plugin);
 end;
 
@@ -143,8 +142,12 @@ begin
 end;
 
 procedure TClientFrame.UnLoad(AHandle: THandle);
+var
+  plg:TClientPlugin;
 begin
-  TClientPlugin(FindPlugin(AHandle)).Free;
+  plg := TClientPlugin(FindPlugin(AHandle));
+  if plg <> nil then
+     FreeAndNil(plg);
 end;
 
 constructor TClientPlugin.Create;
