@@ -4,10 +4,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ChildForm, ActnList, dxBar, ImgList, DB, ADODB;
+  Dialogs, ChildForm, ActnList, dxBar, ImgList, DB, ADODB, StdCtrls;
 
 type
   TfrmTest = class(TfrmChild)
+    Button1: TButton;
   private
     { Private declarations }
   public
