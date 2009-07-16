@@ -24,6 +24,7 @@ object Form1: TForm1
   end
   object Person1: TPerson
     age = 0
+    AName = #32599#21326#26149
     ID = 0
     Skin = siYellow
     MyState = []
