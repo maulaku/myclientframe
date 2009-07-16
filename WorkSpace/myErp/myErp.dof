@@ -143,8 +143,9 @@ Item0=DEBUG
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=1
-Item0=bin;source;
+Count=2
+Item0=D:\WorkSpace\myErp\bin
+Item1=bin;source;
 [HistoryLists\hlUnitOutputDirectory]
 Count=3
 Item0=dcu

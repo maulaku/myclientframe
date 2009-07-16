@@ -22,14 +22,14 @@ var
   frmLogin: TfrmLogin;
 begin
   Application.Initialize;
-  frmLogin := TfrmLogin.Create(nil);
-  if frmLogin.ShowModal = mrok then begin
-    FreeAndNil(frmLogin);
+//  frmLogin := TfrmLogin.Create(nil);
+//  if frmLogin.ShowModal = mrok then begin
+//    FreeAndNil(frmLogin);
     Application.CreateForm(TfrmMain, frmMain);
   Application.Run;
-  end else begin
-    FreeAndNil(frmLogin);
-    Application.Terminate;
-  end;
+//  end else begin
+//    FreeAndNil(frmLogin);
+//    Application.Terminate;
+//  end;
 end.
 
