@@ -3,7 +3,7 @@ unit uClientPlugin;
 interface
 
 uses
-  Classes,SysUtils,Forms,Windows,uConst;
+  Classes,SysUtils,Forms,Windows,uStringConst;
 
 type
   TSHOWDLLFORM = Function:THandle;stdcall;
@@ -113,13 +113,13 @@ begin
 
   if libHandle = 0 then exit;
 
-  @_CloseDllForm:= GetProcAddress(libHandle,PChar(Close_DllForm));
+  @_CloseDllForm:= GetProcAddress(libHandle,PChar(CLOSE_DLLFORM));
   if @_CloseDllForm = nil then begin
     FreeLibrary(libHandle);
     exit;
   end;
 
-  @_ShowDllForm := GetProcAddress(libHandle,PChar(Show_DllForm));
+  @_ShowDllForm := GetProcAddress(libHandle,PChar(SHOW_DLLFORM));
   if @_ShowDllForm=nil then begin
     FreeLibrary(libHandle);
     exit;
