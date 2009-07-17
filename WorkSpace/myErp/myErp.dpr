@@ -11,7 +11,6 @@ uses
   uDBMgr in 'FrameWork\uDBMgr.pas',
   uBase in 'source\Common\uBase.pas',
   uConst in 'FrameWork\uConst.pas',
-  uConfig in 'source\Common\uConfig.pas',
   MainForm in 'MainForm.pas' {frmMain},
   LoginForm in 'source\Login\LoginForm.pas' {frmLogin},
   configForm in 'source\config\configForm.pas' {frmConfig},
@@ -25,7 +24,7 @@ begin
 //  frmLogin := TfrmLogin.Create(nil);
 //  if frmLogin.ShowModal = mrok then begin
 //    FreeAndNil(frmLogin);
-    Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmMain, frmMain);
   Application.Run;
 //  end else begin
 //    FreeAndNil(frmLogin);
