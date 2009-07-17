@@ -21,10 +21,7 @@ type
     edtPassWord: TEdit;
     edtPort: TSpinEdit;
     procedure btnOKClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
   private
-    FConfig: TConfig;
     { Private declarations }
   public
     { Public declarations }
@@ -52,22 +49,5 @@ begin
 //  end else ModalResult := 0;
 end;
 
-procedure TfrmConfig.FormCreate(Sender: TObject);
-begin
-  inherited;
-  FConfig := TConfig.Create;
-end;
-
-procedure TfrmConfig.FormShow(Sender: TObject);
-begin
-  inherited;
-  FConfig.ReadLocalConfig;
-  cbbType.ItemIndex := cbbType.Items.IndexOf(FConfig.ProviderName);
-  edtAddress.Text := FConfig.LocalIP;
-  edtPort.Value := FConfig.Port;
-  edtUserName.Text := FConfig.UserName;
-  edtPassWord.Text := FConfig.PassWord;
-
-end;
-
 end.
+

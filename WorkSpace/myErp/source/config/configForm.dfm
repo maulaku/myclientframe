@@ -4,8 +4,6 @@ inherited frmConfig: TfrmConfig
   Width = 514
   Height = 320
   Caption = #25968#25454#37197#32622
-  OnCreate = FormCreate
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 12
   inherited pnlBottom: TPanel
