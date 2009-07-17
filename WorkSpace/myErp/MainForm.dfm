@@ -1,6 +1,6 @@
 inherited frmMain: TfrmMain
-  Left = 447
-  Top = 271
+  Left = 775
+  Top = 381
   Width = 838
   Height = 454
   Caption = #20027#31383#20307
