@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, BaseForm, ImgList, dxBar, ComCtrls, ActnList,uClientPlugin;
-  
+  Dialogs, BaseForm, ImgList, dxBar, ComCtrls, ActnList, uClientPlugin;
+
 const
   WM_MSGCLOSE = WM_User + 100; //定义消息常量; 子窗体关闭.
 
@@ -42,10 +42,9 @@ type
     procedure Act_TestExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
-    FPluginMgr:TClientFrame;
+    FPluginMgr: TClientFrame;
     { Private declarations }
   protected
-    procedure WNDProc(var msg:TMessage);override;
   public
     { Public declarations }
   end;
@@ -61,7 +60,6 @@ uses uConst, configForm;
 procedure TfrmMain.act_CloseExecute(Sender: TObject);
 begin
   inherited;
-  //PostMessage(self.ActiveMDIChild.Handle, WM_MSGCLOSE, 1, 0);
   FPluginMgr.UnLoad(self.ActiveMDIChild.Handle);
 end;
 
@@ -111,17 +109,9 @@ end;
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   inherited;
-//  if showWarningA('确定退出系统?') = mrOk then begin
-//    CanClose := True;
-//  end else CanClose := False;
-end;
-
-procedure TfrmMain.WNDProc(var msg: TMessage);
-begin
-  inherited;
-  if msg.Msg = WM_MSGCLOSE then begin
-     FPluginMgr.UnLoad(msg.WParam);
-  end;
+  if showWarningA('确定退出系统?') = mrOk then begin
+    CanClose := True;
+  end else CanClose := False;
 end;
 
 end.
