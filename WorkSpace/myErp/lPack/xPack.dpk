@@ -27,10 +27,16 @@ package xPack;
 
 requires
   rtl,
-  vcl;
+  vcl,
+  dbrtl,
+  dac70,
+  unidac70,
+  oraprovider70;
 
 contains
   uClientPlugin in 'uClientPlugin.pas',
-  uStringConst in 'uStringConst.pas';
+  uStringConst in 'uStringConst.pas',
+  uConfig in 'uConfig.pas',
+  XMLINI in 'XMLINI.pas';
 
 end.

@@ -135,9 +135,6 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 [Excluded Packages]
-c:\program files\borland\delphi7\Bin\dclIntraweb_50_70.bpl=Intraweb 5.0 Design Package for Delphi 7
-c:\program files\borland\delphi7\bin\dclRave70.bpl=Rave Reports BE 5.0 Package
-c:\program files\borland\delphi7\Bin\dclofficexp70.bpl=Microsoft Office XP Sample Automation Server Wrapper Components
 c:\program files\borland\delphi7\Projects\Bpl\xPack.bpl=(untitled)
 c:\program files\borland\delphi7\Projects\Bpl\dclLhcPack.bpl=LHCPlugin PACK
 [HistoryLists\hlConditionals]
@@ -147,9 +144,11 @@ Item0=DEBUG
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=2
-Item0=D:\WorkSpace\myErp\bin
-Item1=bin;source;
+Count=4
+Item0=D:\WorkSpace\myErp\dcu
+Item1=bin;source;dcu;
+Item2=D:\WorkSpace\myErp\bin
+Item3=bin;source;
 [HistoryLists\hlUnitOutputDirectory]
 Count=3
 Item0=D:\WorkSpace\myErp\dcu
@@ -157,8 +156,8 @@ Item1=dcu
 Item2=..\dcu
 [HistoryLists\hlOutputDirectorry]
 Count=3
-Item0=bin
-Item1=D:\WorkSpace\myErp\bin\Plugin
+Item0=D:\WorkSpace\myErp\bin\Plugin
+Item1=bin
 Item2=..\bin
 [HistoryLists\hlBPLOutput]
 Count=1
