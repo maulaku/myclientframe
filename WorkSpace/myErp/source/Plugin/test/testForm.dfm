@@ -1,6 +1,6 @@
 inherited frmTest: TfrmTest
-  Left = 620
-  Top = 128
+  Left = 491
+  Top = 337
   Caption = 'frmTest'
   PixelsPerInch = 96
   TextHeight = 12
@@ -38,8 +38,10 @@ inherited frmTest: TfrmTest
       0)
   end
   object UniQuery1: TUniQuery
+    SQL.Strings = (
+      'select * from company')
     Left = 16
-    Top = 72
+    Top = 104
   end
   object UniDataSource1: TUniDataSource
     DataSet = UniQuery1

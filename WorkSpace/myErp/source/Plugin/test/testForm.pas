@@ -25,12 +25,16 @@ var
 
 implementation
 
+uses
+  uPlugin;
+
+
 {$R *.dfm}
 
 procedure TfrmTest.Button1Click(Sender: TObject);
 begin
   inherited;
-  
+  UniQuery1.Connection := Plugin.ClientFrame.LocalDB;
   UniQuery1.Close;
   UniQuery1.SQL.Text := 'select * from company';
   UniQuery1.Open;
