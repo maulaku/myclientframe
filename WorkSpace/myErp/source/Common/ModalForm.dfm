@@ -3,16 +3,13 @@ inherited frmModal: TfrmModal
   Top = 365
   Width = 635
   Caption = #27169#24577#31383#20307
-  Font.Charset = ANSI_CHARSET
-  Font.Height = -12
-  Font.Name = #23435#20307
   KeyPreview = True
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 12
   object pnlBottom: TPanel [0]
     Left = 0
-    Top = 368
+    Top = 363
     Width = 627
     Height = 41
     Align = alBottom
@@ -48,8 +45,5 @@ inherited frmModal: TfrmModal
     Height = 337
     Caption = #20449#24687
     TabOrder = 1
-  end
-  inherited ilBase: TImageList
-    Left = 576
   end
 end
