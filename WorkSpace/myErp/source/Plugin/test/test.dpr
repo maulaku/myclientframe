@@ -16,13 +16,12 @@ uses
   BaseForm in '..\..\Common\BaseForm.pas' {frmBase},
   ChildForm in '..\..\Common\ChildForm.pas' {frmChild},
   testForm in 'testForm.pas' {frmTest},
-  MyPlug in 'MyPlug.pas';
+  uPlugin in 'uPlugin.pas' {Plugin: TDataModule};
 
 {$R *.res}
 
 exports
-  SHOWDLLFORM,
-  CLOSEDLLFORM;
+  RegisterClientPlugin;
 
 begin
 end.
