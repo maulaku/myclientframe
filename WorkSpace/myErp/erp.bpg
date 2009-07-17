@@ -9,7 +9,7 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = xPack.bpl myErp.exe test.dll test1.dll
+PROJECTS = xPack.bpl myErp.exe test.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -21,9 +21,6 @@ test.dll: source\Plugin\test\test.dpr
   $(DCC)
 
 xPack.bpl: lPack\xPack.dpk
-  $(DCC)
-
-test1.dll: source\Plugin\test1\test1.dpr
   $(DCC)
 
 
