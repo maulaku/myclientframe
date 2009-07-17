@@ -95,7 +95,7 @@ UnitOutputDir=D:\WorkSpace\myErp\dcu
 PackageDLLOutputDir=D:\WorkSpace\myErp\bin
 PackageDCPOutputDir=
 SearchPath=
-Packages=vcl;dxBarD7;xpack
+Packages=vcl;dxBarD7
 Conditionals=
 DebugSourceDirs=
 UsePackages=1
@@ -126,6 +126,7 @@ CodePage=936
 [Version Info Keys]
 FileVersion=1.0.0.0
 [Excluded Packages]
+c:\program files\borland\delphi7\Projects\Bpl\xPack.bpl=(untitled)
 c:\program files\borland\delphi7\Projects\Bpl\dclLhcPack.bpl=LHCPlugin PACK
 [HistoryLists\hlConditionals]
 Count=1
@@ -134,17 +135,20 @@ Item0=DEBUG
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=1
-Item0=bin;source;
+Count=4
+Item0=D:\WorkSpace\myErp\dcu
+Item1=bin;source;dcu;
+Item2=D:\WorkSpace\myErp\bin
+Item3=bin;source;
 [HistoryLists\hlUnitOutputDirectory]
 Count=3
-Item0=dcu
-Item1=D:\WorkSpace\myErp\dcu
+Item0=D:\WorkSpace\myErp\dcu
+Item1=dcu
 Item2=..\dcu
 [HistoryLists\hlOutputDirectorry]
 Count=3
-Item0=bin
-Item1=D:\WorkSpace\myErp\bin\Plugin
+Item0=D:\WorkSpace\myErp\bin\Plugin
+Item1=bin
 Item2=..\bin
 [HistoryLists\hlBPLOutput]
 Count=1
