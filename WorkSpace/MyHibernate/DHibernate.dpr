@@ -3,7 +3,8 @@ program DHibernate;
 uses
   Forms,
   MainForm in 'MainForm.pas' {frmMain},
-  uInfo in 'uInfo.pas';
+  uInfo in 'uInfo.pas',
+  uconst in 'uconst.pas';
 
 {$R *.res}
 
