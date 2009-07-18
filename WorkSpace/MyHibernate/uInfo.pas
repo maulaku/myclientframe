@@ -222,6 +222,16 @@ begin
   Result := TBase(FList.Objects[FList.IndexOf(_Name)]);
 end;
 
+
+{-------------------------------------------------------------------------------
+  过程名:    TTableMgr.getObjectList
+  作者:      luohuachun
+  日期:      2009.07.18
+  参数:      无
+  返回值:    TStrings
+  详细说明:  取得表的对象列表
+
+-------------------------------------------------------------------------------}
 function TTableMgr.getObjectList: TStrings;
 var
   o: TTable;
@@ -268,6 +278,16 @@ begin
   inherited;
 end;
 
+
+{-------------------------------------------------------------------------------
+  过程名:    TMyClassMgr.Analysis
+  作者:      luohuachun
+  日期:      2009.07.18
+  参数:      ATable: TTable; Columns: TStrings
+  返回值:    TStrings
+  详细说明:  将表与列整理成类文本
+
+-------------------------------------------------------------------------------}
 function TMyClassMgr.Analysis(ATable: TTable; Columns: TStrings): TStrings;
 var
   Column: TColumn;
@@ -330,6 +350,16 @@ begin
   end;
 end;
 
+
+{-------------------------------------------------------------------------------
+  过程名:    TMyClassMgr.Convert
+  作者:      luohuachun
+  日期:      2009.07.18
+  参数:      _TableName: string
+  返回值:    无
+  详细说明:  将一个表的相关信息转换为文件方式
+
+-------------------------------------------------------------------------------}
 procedure TMyClassMgr.Convert(_TableName: string);
 var
   _Table: TTable;
@@ -358,6 +388,16 @@ begin
   end;
 end;
 
+
+{-------------------------------------------------------------------------------
+  过程名:    TMyClassMgr.Convert
+  作者:      luohuachun
+  日期:      2009.07.18
+  参数:      _List: TStrings
+  返回值:    无
+  详细说明:  转换多个表
+
+-------------------------------------------------------------------------------}
 procedure TMyClassMgr.Convert(_List: TStrings);
 var
   i: Integer;
@@ -367,6 +407,16 @@ begin
   end;
 end;
 
+
+{-------------------------------------------------------------------------------
+  过程名:    TMyClassMgr.convertDateType
+  作者:      luohuachun
+  日期:      2009.07.18
+  参数:      ADateType: string
+  返回值:    string
+  详细说明:  将字段类型转换为能被Delphi识别的数据类型
+
+-------------------------------------------------------------------------------}
 function TMyClassMgr.convertDateType(ADateType: string): string;
 begin
   if Pos(LowerCase(ADateType), LowerCase('NUMBER,CHAR,DATE,VARCHAR2,BLOB')) > 0 then begin
@@ -399,6 +449,16 @@ begin
     Result := result + '\';
 end;
 
+
+{-------------------------------------------------------------------------------
+  过程名:    TConfig.Load
+  作者:      luohuachun
+  日期:      2009.07.18
+  参数:      无
+  返回值:    无
+  详细说明:  取出配置文件
+
+-------------------------------------------------------------------------------}
 procedure TConfig.Load;
 begin
   FServer := ini.ReadString('config', 'server', '');
@@ -407,6 +467,16 @@ begin
   FSavePath := ini.ReadString('config', 'savepath', '');
 end;
 
+
+{-------------------------------------------------------------------------------
+  过程名:    TConfig.save
+  作者:      luohuachun
+  日期:      2009.07.18
+  参数:      无
+  返回值:    无
+  详细说明:  保存配置文件
+
+-------------------------------------------------------------------------------}
 procedure TConfig.save;
 begin
   ini.WriteString(' config', 'server', FServer);

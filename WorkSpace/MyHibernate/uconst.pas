@@ -17,7 +17,6 @@ resourcestring
   publishedFlag = 'published';
   propertyFlag = 'property %s: %s Read F%s Write F%s;';
   implementationFlag = 'implementation';
-
   endflag1 = 'end;';
   endflag = 'end.';
 
