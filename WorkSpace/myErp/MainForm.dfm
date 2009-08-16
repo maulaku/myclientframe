@@ -1,6 +1,6 @@
 inherited frmMain: TfrmMain
-  Left = 775
-  Top = 381
+  Left = 533
+  Top = 361
   Width = 838
   Height = 454
   Caption = #20027#31383#20307
@@ -14,21 +14,21 @@ inherited frmMain: TfrmMain
   TextHeight = 12
   object statMain: TStatusBar [0]
     Left = 0
-    Top = 403
+    Top = 408
     Width = 830
     Height = 19
     Panels = <>
     ParentColor = True
   end
   inherited ilMain: TImageList
-    Left = 80
+    Left = 136
     Top = 64
   end
   object mbMain: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
-    Font.Name = #24494#36719#38597#40657
+    Font.Name = #23435#20307
     Font.Style = []
     Bars = <
       item
@@ -110,7 +110,7 @@ inherited frmMain: TfrmMain
     PopupMenuLinks = <>
     Style = bmsFlat
     UseSystemFont = True
-    Left = 8
+    Left = 40
     Top = 64
     DockControlHeights = (
       0
@@ -194,7 +194,7 @@ inherited frmMain: TfrmMain
     end
   end
   object alMain: TActionList
-    Left = 40
+    Left = 88
     Top = 64
     object act_Close: TAction
       Category = #31995#32479

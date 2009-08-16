@@ -57,7 +57,11 @@ type
     property LocalDB: TUniConnection read GetLocalDB;
   end;
 
+var
+  ClientPlugin: TClientPlugin;
+
 implementation
+{$R *.dfm}
 
 uses
   Dialogs, uConfig;

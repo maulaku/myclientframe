@@ -5,10 +5,11 @@ inherited frmTest: TfrmTest
   PixelsPerInch = 96
   TextHeight = 12
   object DBGrid1: TDBGrid [0]
-    Left = 64
-    Top = 40
-    Width = 433
+    Left = 0
+    Top = 26
+    Width = 636
     Height = 145
+    Align = alTop
     DataSource = UniDataSource1
     TabOrder = 4
     TitleFont.Charset = ANSI_CHARSET
@@ -31,6 +32,7 @@ inherited frmTest: TfrmTest
       2)
     Categories.Visibles = (
       True)
+    Style = bmsFlat
     DockControlHeights = (
       0
       0
