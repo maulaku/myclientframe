@@ -1,10 +1,9 @@
 inherited frmMain: TfrmMain
-  Left = 533
-  Top = 361
+  Left = 451
+  Top = 354
   Width = 838
   Height = 454
   Caption = #20027#31383#20307
-  FormStyle = fsMDIForm
   Position = poDesigned
   WindowState = wsMaximized
   OnCloseQuery = FormCloseQuery
@@ -20,6 +19,22 @@ inherited frmMain: TfrmMain
     Panels = <>
     ParentColor = True
   end
+  object Page: TcxPageControl [1]
+    Left = 0
+    Top = 49
+    Width = 830
+    Height = 359
+    ActivePage = tsMainPage
+    Align = alClient
+    TabOrder = 5
+    ClientRectBottom = 359
+    ClientRectRight = 830
+    ClientRectTop = 23
+    object tsMainPage: TcxTabSheet
+      Caption = #20027#39029
+      ImageIndex = 0
+    end
+  end
   inherited ilMain: TImageList
     Left = 136
     Top = 64
@@ -27,8 +42,8 @@ inherited frmMain: TfrmMain
   object mbMain: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = #23435#20307
+    Font.Height = -11
+    Font.Name = 'Tahoma'
     Font.Style = []
     Bars = <
       item
@@ -61,12 +76,13 @@ inherited frmMain: TfrmMain
       end
       item
         AllowClose = False
+        AllowCustomizing = False
         AllowQuickCustomizing = False
         AllowReset = False
         Caption = #24037#20855#26639
         DockedDockingStyle = dsTop
         DockedLeft = 0
-        DockedTop = 22
+        DockedTop = 23
         DockingStyle = dsTop
         FloatLeft = 565
         FloatTop = 452
@@ -115,7 +131,7 @@ inherited frmMain: TfrmMain
     DockControlHeights = (
       0
       0
-      48
+      49
       0)
     object bsiSystem: TdxBarSubItem
       Caption = #31995#32479
@@ -185,12 +201,15 @@ inherited frmMain: TfrmMain
     object bbTest: TdxBarButton
       Action = Act_Test
       Category = 0
+      Hint = #27979#35797' C'
       ImageIndex = 26
       PaintStyle = psCaptionGlyph
     end
     object dxBarButton1: TdxBarButton
       Action = act_Test1
+      Caption = #27979#35797' o'
       Category = 0
+      Hint = #27979#35797' o'
     end
   end
   object alMain: TActionList
@@ -206,6 +225,7 @@ inherited frmMain: TfrmMain
       Category = #31995#32479
       Caption = #20851#38381#25152#26377
       ImageIndex = 1
+      OnExecute = act_CloseAllExecute
     end
     object Act_Exit: TAction
       Category = #31995#32479
@@ -238,13 +258,13 @@ inherited frmMain: TfrmMain
     end
     object Act_Test: TAction
       Category = #31995#32479
-      Caption = #27979#35797
+      Caption = #27979#35797' C'
       ImageIndex = 23
       OnExecute = Act_TestExecute
     end
     object act_Test1: TAction
       Category = #31995#32479
-      Caption = #27979#35797'1'
+      Caption = #27979#35797'h'
       OnExecute = act_Test1Execute
     end
   end

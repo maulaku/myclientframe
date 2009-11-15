@@ -94,8 +94,8 @@ OutputDir=bin
 UnitOutputDir=dcu
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=bin;source;dcu;
-Packages=vcl;dxBarD7
+SearchPath=$(DELPHI)\Lib\Debug;bin;source;dcu;D:\WorkSpace\ClientPack\bin
+Packages=vcl;rtl;iPack;dxBarD7;dac70;oraprovider70;unidac70;dclcxPageControlVCLD7;dclstd
 Conditionals=DEBUG
 DebugSourceDirs=
 UsePackages=1
@@ -135,30 +135,25 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 [Excluded Packages]
-c:\program files\borland\delphi7\Projects\Bpl\xPack.bpl=(untitled)
-c:\program files\borland\delphi7\Projects\Bpl\dclLhcPack.bpl=LHCPlugin PACK
-[HistoryLists\hlConditionals]
-Count=1
-Item0=DEBUG
+c:\program files\borland\delphi7\Bin\dclocx70.bpl=Borland Sample Imported ActiveX Controls
+c:\program files\borland\delphi7\Bin\dcldbxcds70.bpl=Borland SimpleDataset Component (DBX)
+C:\WINDOWS\system32\ibevnt70.bpl=Borland Interbase Event Alerter Component
+c:\program files\borland\delphi7\Bin\dcldss70.bpl=Borland Decision Cube Components
+c:\program files\borland\delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
+C:\Program Files\Borland\Delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
+C:\Program Files\Developer Express Inc\ExpressEditors Library 5\Delphi 7\Lib\dclcxExtEditorsVCLD7.bpl=ExpressExtendedEditors Library 5 (VCL Edition) by Developer Express Inc.
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
-[HistoryLists\hlSearchPath]
-Count=4
-Item0=D:\WorkSpace\myErp\dcu
-Item1=bin;source;dcu;
-Item2=D:\WorkSpace\myErp\bin
-Item3=bin;source;
 [HistoryLists\hlUnitOutputDirectory]
-Count=3
-Item0=D:\WorkSpace\myErp\dcu
+Count=2
+Item0=D:\WorkSpace\myErp\Dcu\
 Item1=dcu
-Item2=..\dcu
 [HistoryLists\hlOutputDirectorry]
 Count=3
-Item0=D:\WorkSpace\myErp\bin\Plugin
+Item0=D:\WorkSpace\myErp\Bin\Plugin\
 Item1=bin
-Item2=..\bin
+Item2=D:\WorkSpace\myErp\Bin\
 [HistoryLists\hlBPLOutput]
 Count=1
-Item0=D:\WorkSpace\myErp\bin
+Item0=bin

@@ -6,9 +6,7 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, BaseForm, ImgList, ActnList, dxBar, StdCtrls;
   
-const
-  WM_MSGCLOSE = WM_User + 100;  //定义消息常量;
-  
+ 
 type
   TfrmChild = class(TfrmBase)
     bmChild: TdxBarManager;
@@ -27,7 +25,6 @@ type
     bbFind: TdxBarButton;
     bbPrint: TdxBarButton;
     bbExport: TdxBarButton;
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -40,11 +37,5 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TfrmChild.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  inherited;
-  PostMessage(Application.MainForm.Handle,WM_MSGCLOSE,Handle,0);
-end;
 
 end.

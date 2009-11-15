@@ -14,21 +14,30 @@ uses
   MainForm in 'MainForm.pas' {frmMain},
   LoginForm in 'source\Login\LoginForm.pas' {frmLogin},
   configForm in 'source\config\configForm.pas' {frmConfig},
-  uClientPlugin in 'lPack\uClientPlugin.pas';
+  uGlobal in 'source\Common\uGlobal.pas',
+  uClientPlugin in '..\ClientPack\uClientPlugin.pas' {LHCClientPlugin: TDataModule};
 
 {$R *.res}
-var
-  frmLogin: TfrmLogin;
+
 begin
   Application.Initialize;
-//  frmLogin := TfrmLogin.Create(nil);
-//  if frmLogin.ShowModal = mrok then begin
-//    FreeAndNil(frmLogin);
-  Application.CreateForm(TfrmMain, frmMain);
+  PluginMgr := TLHCClientFrame.Create(nil);
+  if PluginMgr.isLinkDB then begin
+    frmLogin := TfrmLogin.Create(nil);
+    if frmLogin.ShowModal = mrok then begin
+      FreeAndNil(frmLogin);
+      Application.CreateForm(TfrmMain, frmMain);
   Application.Run;
-//  end else begin
-//    FreeAndNil(frmLogin);
-//    Application.Terminate;
-//  end;
+    end else begin
+      FreeAndNil(frmLogin);
+      FreeAndNil(PluginMgr);
+      Application.Terminate;
+    end;
+  end else begin
+    FreeAndNil(PluginMgr);
+    Application.Terminate;
+  end;
+
+
 end.
 

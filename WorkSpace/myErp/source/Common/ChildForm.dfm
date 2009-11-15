@@ -2,12 +2,9 @@ inherited frmChild: TfrmChild
   Left = 475
   Top = 342
   Caption = #23376#31383#20307
-  FormStyle = fsMDIChild
   Position = poDefault
-  Visible = True
-  OnClose = FormClose
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 12
   inherited ilMain: TImageList
     Left = 560
     Top = 56
@@ -1210,7 +1207,7 @@ inherited frmChild: TfrmChild
   object bmChild: TdxBarManager
     Font.Charset = GB2312_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -11
     Font.Name = #23435#20307
     Font.Style = []
     Bars = <
@@ -1284,6 +1281,7 @@ inherited frmChild: TfrmChild
     Images = ilMain
     LookAndFeel.Kind = lfFlat
     PopupMenuLinks = <>
+    Style = bmsFlat
     UseSystemFont = False
     Left = 496
     Top = 56

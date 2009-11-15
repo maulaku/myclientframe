@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, BaseForm, ImgList, dxBar, ComCtrls, ActnList, uClientPlugin;
+  Dialogs, BaseForm, ImgList, dxBar, ComCtrls, ActnList, uClientPlugin,uMyDialogs,
+  Tabs,uGlobal, cxControls, cxPC;
 
 const
   WM_MSGCLOSE = WM_User + 100; //定义消息常量; 子窗体关闭.
@@ -33,19 +34,28 @@ type
     bbTest: TdxBarButton;
     act_Test1: TAction;
     dxBarButton1: TdxBarButton;
+    Page: TcxPageControl;
+    tsMainPage: TcxTabSheet;
+    procedure act_CloseAllExecute(Sender: TObject);
     procedure act_CloseExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure act_ConfigExecute(Sender: TObject);
     procedure Act_ExitExecute(Sender: TObject);
     procedure act_Test1Execute(Sender: TObject);
-    procedure Act_TestExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure Act_TestExecute(Sender: TObject);
   private
-    FPluginMgr: TClientFrame;
     { Private declarations }
+    procedure load(PluginName:string);
+    procedure unload(Index: Integer);overload;
+    procedure unload;overload;
+    procedure unloadAll;
   protected
   public
+//    FPluginMgr:TLHCClientFrame;
+    constructor Create(Aowner:TComponent);override;
+//    constructor Create(Aowner:TComponent;APluginMgr:TLHCClientFrame);reintroduce;overload;
     { Public declarations }
   end;
 
@@ -60,19 +70,23 @@ uses uConst, configForm;
 procedure TfrmMain.act_CloseExecute(Sender: TObject);
 begin
   inherited;
-  FPluginMgr.UnLoad(self.ActiveMDIChild.Handle);
+//  if self.ActiveMDIChild <> nil then
+//  ShowMessage(IntToStr(TForm(Page.Pages[0].Controls[0]).Handle));
+  if Page.ActivePageIndex = 0 then exit;
+  
+  PluginMgr.UnLoad(TForm(Page.Pages[Page.ActivePageIndex].Controls[0]).Handle);
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
   inherited;
-  FreeAndNil(FPluginMgr);
+  FreeAndNil(PluginMgr);
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   inherited;
-  FPluginMgr := TClientFrame.Create(nil);
+//  PluginMgr := TLHCClientFrame.Create(nil);
 end;
 
 procedure TfrmMain.act_ConfigExecute(Sender: TObject);
@@ -91,27 +105,64 @@ end;
 procedure TfrmMain.Act_ExitExecute(Sender: TObject);
 begin
   inherited;
-  close;
+  Close;
 end;
 
 procedure TfrmMain.act_Test1Execute(Sender: TObject);
 begin
   inherited;
-  FPluginMgr.Load('test1.dll');
-end;
-
-procedure TfrmMain.Act_TestExecute(Sender: TObject);
-begin
-  inherited;
-  FPluginMgr.Load('test.dll');
+  Load('order4.plg');
 end;
 
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   inherited;
-  if showWarningA('确定退出系统?') = mrOk then begin
+  if TMessageBox.ConfireWarning('确定退出系统?') = mrYes then begin
     CanClose := True;
   end else CanClose := False;
+end; 
+
+constructor TfrmMain.Create(Aowner: TComponent);
+begin
+  inherited Create(Aowner);
+end;
+
+procedure TfrmMain.act_CloseAllExecute(Sender: TObject);
+begin
+  inherited;
+  unloadAll;
+end;
+
+procedure TfrmMain.Act_TestExecute(Sender: TObject);
+begin
+  inherited;
+  load('order.plg');
+end;
+
+procedure TfrmMain.load(PluginName: string);
+begin
+  PluginMgr.Load(PluginName,page);
+end;
+
+procedure TfrmMain.unload(Index: Integer);
+begin
+  if Index = 0 then
+    exit;
+   
+  PluginMgr.UnLoad(TForm(Page.Pages[Index].Controls[0]).Handle);
+end;
+
+procedure TfrmMain.unload;
+begin
+  unload(Page.ActivePageIndex);
+end;
+
+procedure TfrmMain.unloadAll;
+var
+  i: Integer;
+begin
+  for i := page.pagecount-1 downto 1 do
+    unload(i); 
 end;
 
 end.

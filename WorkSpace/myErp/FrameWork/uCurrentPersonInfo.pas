@@ -35,6 +35,7 @@ implementation
 
 function TCurrentPersonInfoMgr.LoadCurrentPerson: TCurrentPersonInfo;
 begin
+  Result := nil;
 end;
 
 

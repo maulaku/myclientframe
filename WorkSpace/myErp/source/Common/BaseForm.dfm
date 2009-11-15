@@ -2,7 +2,7 @@ object frmBase: TfrmBase
   Left = 527
   Top = 327
   Width = 644
-  Height = 436
+  Height = 429
   Caption = #22522#31383#20307
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
