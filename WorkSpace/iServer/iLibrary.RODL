@@ -1,0 +1,15 @@
+<Library Name="iLibrary" UID="{41BE3CB1-6552-424C-AF43-5036241712D7}">
+  <Services>
+    <Service Name="iService" UID="{5450CDF6-E54E-4899-A390-2EEFC87559F1}" Ancestor="DataAbstractService">
+      <Interfaces>
+         <Interface Name="Default" UID="{71A7278C-9ACF-4EA0-ACD3-8DC13C7EEFBD}">
+            <Operations>
+            </Operations>
+         </Interface>
+      </Interfaces>
+    </Service>
+  </Services>
+  <Uses>
+     <Use Name="DataAbstract" UID="{BF57AEE1-96BA-4404-90A5-9C7F0F69A815}" Rodl="$(Data Abstract for Delphi)\Source\DataAbstract4.RODL" />
+  </Uses>
+</Library>
