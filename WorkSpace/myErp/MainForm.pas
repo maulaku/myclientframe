@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, BaseForm, ImgList, dxBar, ComCtrls, ActnList, uClientPlugin,uMyDialogs,
-  Tabs,uGlobal, cxControls, cxPC;
+  Tabs,uGlobal, RzTabs;
 
 const
   WM_MSGCLOSE = WM_User + 100; //定义消息常量; 子窗体关闭.
@@ -34,8 +34,7 @@ type
     bbTest: TdxBarButton;
     act_Test1: TAction;
     dxBarButton1: TdxBarButton;
-    Page: TcxPageControl;
-    tsMainPage: TcxTabSheet;
+    Page: TRzPageControl;
     procedure act_CloseAllExecute(Sender: TObject);
     procedure act_CloseExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -72,7 +71,8 @@ begin
   inherited;
 //  if self.ActiveMDIChild <> nil then
 //  ShowMessage(IntToStr(TForm(Page.Pages[0].Controls[0]).Handle));
-  if Page.ActivePageIndex = 0 then exit;
+//  if Page.ActivePageIndex = 0 then exit;
+  if page.PageCount = 0 then exit;
   
   PluginMgr.UnLoad(TForm(Page.Pages[Page.ActivePageIndex].Controls[0]).Handle);
 end;
@@ -111,7 +111,7 @@ end;
 procedure TfrmMain.act_Test1Execute(Sender: TObject);
 begin
   inherited;
-  Load('order4.plg');
+  Load('order1.plg');
 end;
 
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -146,9 +146,6 @@ end;
 
 procedure TfrmMain.unload(Index: Integer);
 begin
-  if Index = 0 then
-    exit;
-   
   PluginMgr.UnLoad(TForm(Page.Pages[Index].Controls[0]).Handle);
 end;
 
@@ -161,7 +158,7 @@ procedure TfrmMain.unloadAll;
 var
   i: Integer;
 begin
-  for i := page.pagecount-1 downto 1 do
+  for i := page.pagecount-1 downto 0 do
     unload(i); 
 end;
 

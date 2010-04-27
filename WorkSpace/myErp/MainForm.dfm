@@ -1,8 +1,8 @@
 inherited frmMain: TfrmMain
-  Left = 451
-  Top = 354
-  Width = 838
-  Height = 454
+  Left = 238
+  Top = 290
+  Width = 717
+  Height = 311
   Caption = #20027#31383#20307
   Position = poDesigned
   WindowState = wsMaximized
@@ -13,27 +13,20 @@ inherited frmMain: TfrmMain
   TextHeight = 12
   object statMain: TStatusBar [0]
     Left = 0
-    Top = 408
-    Width = 830
+    Top = 265
+    Width = 709
     Height = 19
     Panels = <>
     ParentColor = True
   end
-  object Page: TcxPageControl [1]
+  object Page: TRzPageControl [1]
     Left = 0
     Top = 49
-    Width = 830
-    Height = 359
-    ActivePage = tsMainPage
+    Width = 709
+    Height = 216
     Align = alClient
     TabOrder = 5
-    ClientRectBottom = 359
-    ClientRectRight = 830
-    ClientRectTop = 23
-    object tsMainPage: TcxTabSheet
-      Caption = #20027#39029
-      ImageIndex = 0
-    end
+    FixedDimension = 0
   end
   inherited ilMain: TImageList
     Left = 136

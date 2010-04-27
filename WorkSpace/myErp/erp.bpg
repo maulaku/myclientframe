@@ -9,7 +9,8 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = myErp.exe iPack.bpl sysConfig.exe Order.plg HR.plg Order4.plg
+PROJECTS = erpServer.exe Environment.bpl iPack.bpl sysConfig.exe myErp.exe \
+  Project1.exe Order.plg
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -23,13 +24,16 @@ iPack.bpl: ..\ClientPack\iPack.dpk
 sysConfig.exe: ..\sysConfig\sysConfig.dpr
   $(DCC)
 
+Environment.bpl: source\Environment\Environment.dpk
+  $(DCC)
+
+Project1.exe: ..\test\Project1.dpr
+  $(DCC)
+
 Order.plg: source\Plugin\Order\Order.dpr
   $(DCC)
 
-HR.plg: source\Plugin\HR\HR.dpr
-  $(DCC)
-
-Order4.plg: source\Plugin\Order4\Order4.dpr
+erpServer.exe: ..\Server\erpServer.dpr
   $(DCC)
 
 
