@@ -1,0 +1,15 @@
+<Library Name="erpLibrary" UID="{7E7F8FB9-0456-44ED-9B0D-88865B268F2D}">
+  <Services>
+    <Service Name="erpService" UID="{26BADFBC-F2A5-49EB-A46C-6D8112F63A9C}" Ancestor="DataAbstractService">
+      <Interfaces>
+         <Interface Name="Default" UID="{6A2F3D2B-59AB-4B1C-B765-57F15C1C2CB9}">
+            <Operations>
+            </Operations>
+         </Interface>
+      </Interfaces>
+    </Service>
+  </Services>
+  <Uses>
+     <Use Name="DataAbstract" UID="{86D51F71-87BE-4FB3-9ABD-E1F227A176D9}" Rodl="$(Data Abstract for Delphi)\Source\DataAbstract4.RODL" />
+  </Uses>
+</Library>
