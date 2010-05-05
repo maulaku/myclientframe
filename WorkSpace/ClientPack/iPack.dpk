@@ -1,0 +1,74 @@
+package iPack;
+
+{$R *.res}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'H Clinet Plugin FrameWork'}
+{$DESIGNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  rtl,
+  vcl,
+  designide,
+  vclactnband,
+  vclx,
+  dbrtl,
+  vcljpg,
+  VclSmp,
+  RaizeComponentsVcl,
+  Environment,
+  dsnap,
+  vcldb,
+  RemObjects_Core_D7,
+  DataAbstract_Core_D7,
+  adortl;
+
+contains
+  uConst in 'uConst.pas',
+  uFile in 'uFile.pas',
+  uForm in 'uForm.pas',
+  uDll in 'uDll.pas',
+  uUnit in 'uUnit.pas',
+  uApplication in 'uApplication.pas',
+  uPackAge in 'uPackAge.pas',
+  uText in 'uText.pas',
+  uConsole in 'uConsole.pas',
+  PerferencesForm in 'PerferencesForm.pas' {frmPerferences},
+  uIni in 'uIni.pas',
+  uPluginProject in 'uPluginProject.pas',
+  uClientTest in 'uClientTest.pas',
+  upluginModule in 'upluginModule.pas',
+  uStringConst in 'uStringConst.pas',
+  uClientPlugin in 'uClientPlugin.pas' {ClientPlugin: TDataModule},
+  uRegister in 'uRegister.pas',
+  uClientPluginEditor in 'uClientPluginEditor.pas',
+  PluginPropertyForm in 'PluginPropertyForm.pas' {frmPluginProperty},
+  uPackProject in 'uPackProject.pas',
+  uMyProject in 'uMyProject.pas',
+  uMenu in 'uMenu.pas',
+  uMyDialogs in 'uMyDialogs.pas',
+  uPluginInfo in 'uPluginInfo.pas',
+  uPluginMgr in 'uPluginMgr.pas',
+  uClientModule in 'uClientModule.pas' {dmClient: TDataModule};
+
+end.

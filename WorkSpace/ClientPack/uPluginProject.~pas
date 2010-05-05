@@ -1,0 +1,250 @@
+{*******************************************************
+
+       客户插件 --建立插件工程模块
+
+       版权所有 (C) 2009 动力工作室
+
+   *******************************************************}
+unit uPluginProject;
+
+interface
+uses
+  ToolsAPI, Windows;
+
+type
+  TLHCPluginCreatorWizard = class(TNotifierObject, IOTAWizard,
+      IOTARepositoryWizard, IOTAProjectWizard)
+  public
+    FProjectName:String;//工程名称;
+    procedure Execute;
+    function GetAuthor: string;
+    function GetComment: string;
+    function GetGlyph: Cardinal;
+    function GetIDString: string;
+    function GetName: string;
+    function GetPage: string;
+    function GetState: TWizardState;
+  end;
+
+  TLHCPluginCreator = class(TInterfacedObject, IOTACreator, IOTAProjectCreator,
+      IOTAProjectCreator50)
+  public
+    FProjectName:String;
+    constructor Create(AProjectName:String);
+    function GetCreatorType: string;
+    function GetExisting: Boolean;
+    function GetFileName: string;
+    function GetFileSystem: string;
+    function GetOptionFileName: string;
+    function GetOwner: IOTAModule;
+    function GetShowSource: Boolean;
+    function GetUnnamed: Boolean;
+    procedure NewDefaultModule;
+    procedure NewDefaultProjectModule(const Project: IOTAProject);
+    function NewOptionSource(const ProjectName: string): IOTAFile;
+    procedure NewProjectResource(const Project: IOTAProject);
+    function NewProjectSource(const ProjectName: string): IOTAFile;
+    property CreatorType: string read GetCreatorType;
+    property Existing: Boolean read GetExisting;
+    property FileName: string read GetFileName;
+    property FileSystem: string read GetFileSystem;
+    property OptionFileName: string read GetOptionFileName;
+    property Owner: IOTAModule read GetOwner;
+    property ShowSource: Boolean read GetShowSource;
+    property Unnamed: Boolean read GetUnnamed;
+  end;
+
+implementation
+uses  uFile, uConst, Dialogs,uForm, SysUtils,upluginModule,uMyProject,uPackProject;
+
+{$R PLUGINPROJECTCODE.RES}
+
+{
+*************************** TLHCPluginCreatorWizard ****************************
+}
+
+procedure TLHCPluginCreatorWizard.Execute;
+begin
+  (BorlandIDEServices as IOTAModuleServices).CreateModule(TLHCPluginCreator.Create(FProjectName));
+end;
+
+function TLHCPluginCreatorWizard.GetAuthor: string;
+begin
+  result := sAuthor;
+end;
+
+function TLHCPluginCreatorWizard.GetComment: string;
+begin
+  result := 'Create a Plugin Project';
+end;
+
+function TLHCPluginCreatorWizard.GetGlyph: Cardinal;
+begin
+  result := 0;
+end;
+
+function TLHCPluginCreatorWizard.GetIDString: string;
+begin
+  Result := 'PluginProject.Demo';
+end;
+
+function TLHCPluginCreatorWizard.GetName: string;
+begin
+  Result := 'PluginProject Wizard';
+end;
+
+function TLHCPluginCreatorWizard.GetPage: string;
+begin
+  Result := sPage;
+end;
+
+function TLHCPluginCreatorWizard.GetState: TWizardState;
+begin
+  result := [wsEnabled];
+end;
+
+{
+****************************** TLHCPluginCreator *******************************
+}
+
+constructor TLHCPluginCreator.Create(AProjectName: String);
+begin
+  FProjectName := AProjectName;
+end;
+
+function TLHCPluginCreator.GetCreatorType: string;
+begin
+  result := sLibrary;
+end;
+
+function TLHCPluginCreator.GetExisting: Boolean;
+begin
+  result := False;
+end;
+
+
+function TLHCPluginCreator.GetFileName: string;
+{-------------------------------------------------------------------------------
+  过程名:    TLHCPluginCreator.GetFileName
+  作者:      luohuachun
+  日期:      2009.08.17
+  参数:      无
+  返回值:    string
+  详细说明:  当前文件所保存的路径与文件名.
+-------------------------------------------------------------------------------}
+var
+  ProjectInfo: TProjectInfo;
+  PluginSource:String;
+
+  function FormatPath(sPath:string):String;
+  begin
+    Result := '';
+    if Length(Trim(sPath)) = 0 then exit;
+
+    if sPath[Length(Trim(sPath))] <> '\' then
+      sPath := sPath +'\';
+
+    Result := sPath;
+  end;
+begin
+  //取得系统中所设置的文件路径与名称.
+  ProjectInfo := TProjectInfo.Create();
+  ProjectInfo.Read;
+
+  PluginSource := FormatPath(ProjectInfo.DirectoryInfo.SourcePlugin) + FProjectName;
+
+  //建立插件的路径
+  ForceDirectories(PluginSource);
+
+  Result := FormatPath(PluginSource) +FProjectName+'.dpr';
+end;
+
+
+function TLHCPluginCreator.GetFileSystem: string;
+begin
+  Result := '';
+end;
+
+function TLHCPluginCreator.GetOptionFileName: string;
+begin
+  Result := '';
+end;
+
+function TLHCPluginCreator.GetOwner: IOTAModule;
+Var
+  Project:TPackProject;
+begin
+  Project := TPackproject.Create;
+  Result := Project.CurrentProject;
+  Project.Free;
+end;
+
+function TLHCPluginCreator.GetShowSource: Boolean;
+begin
+  result := True;
+end;
+
+function TLHCPluginCreator.GetUnnamed: Boolean;
+{-------------------------------------------------------------------------------
+  过程名:    TLHCPluginCreator.GetUnnamed
+  作者:      developer
+  日期:      2009.09.07
+  参数:      无
+  返回值:    Boolean
+  说明:      如果单元不改名并且已指定名称，则置为False即可；
+             如果单元名称未指定，且希望在保存的时候提醒用户输入单元名称，则置为True. 
+-------------------------------------------------------------------------------}
+begin
+  Result := false;
+end;
+
+procedure TLHCPluginCreator.NewDefaultModule;
+var
+  ModuleCreatorWizard: TLHCFormCreatorWizard;
+begin
+  ModuleCreatorWizard := TLHCFormCreatorWizard.Create();
+  ModuleCreatorWizard.Execute;
+  ModuleCreatorWizard.Free;
+end;
+
+procedure TLHCPluginCreator.NewDefaultProjectModule(const Project: IOTAProject);
+var
+  ModuleCreatorWizard: TLHCClientPluginModuleCreatorWizard;
+  MyProject: TPackProject;
+begin
+  ModuleCreatorWizard := TLHCClientPluginModuleCreatorWizard.Create();
+  ModuleCreatorWizard.Execute;
+  ModuleCreatorWizard.Free;
+
+  //设置工程的编译参数
+  MyProject := TPackProject.create;
+  MyProject.SetCompileParam(Project);
+  MyProject.Free;
+end;
+
+function TLHCPluginCreator.NewOptionSource(const ProjectName: string): IOTAFile;
+begin
+                                            
+end;
+
+procedure TLHCPluginCreator.NewProjectResource(const Project: IOTAProject);
+begin
+  Project.FileName;
+end;
+
+function TLHCPluginCreator.NewProjectSource(const ProjectName: string):
+  IOTAFile;
+var
+  ResInstance: THandle;
+  PluginProjectText: PChar;
+begin
+  //加载资源
+  ResInstance := FindResourceHInstance(HInstance);
+  PluginProjectText := StrNew(PChar(LockResource(LoadResource(ResInstance,
+    FindResource(ResInstance, 'PLUGINPROJECTCODE', RT_RCDATA)))));
+    
+  Result := StringToIOTAFile(Format(StrPas(PluginProjectText), [ProjectName]));
+end;
+
+end.
+

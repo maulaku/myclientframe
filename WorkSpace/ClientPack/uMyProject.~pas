@@ -1,0 +1,369 @@
+unit uMyProject;
+
+interface
+uses Registry, SysUtils, Windows, Classes;
+
+type
+  TDataBaseKind = (dbkLocate, dbkRemote);
+
+  TDataBaseInfo = class;
+  TDirectoryInfo = class;
+  TProjectInfo = class;
+
+  IMyProject = interface(IInterface)
+    ['{29523933-775D-40BD-ADA0-02C002401833}']
+    function getDataBaseInfo: TDataBaseInfo; stdcall;
+    function getDirectory: TDirectoryInfo; stdcall;
+    function getMyProject: TProjectInfo; stdcall;
+  end;
+
+  TMyProject = class(TInterfacedObject, IMyProject)
+  public
+    function getDataBaseInfo: TDataBaseInfo; stdcall;
+    function getDirectory: TDirectoryInfo; stdcall;
+    function getMyProject: TProjectInfo; stdcall;
+  end;
+
+  TInfo = class(TObject)
+  protected
+    FIni: TRegIniFile;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function FormatPath(sPath: string): string;
+    procedure Read; virtual; abstract;
+    procedure Write; virtual; abstract;
+  end;
+
+  TDataBaseInfo = class(TInfo)
+  private
+    FAddress: string;
+    FDataBaseKind: TDataBaseKind;
+    FDataBaseName: string;
+    FPassWord: string;
+    FPort: Integer;
+    FProviderName: string;
+    FUserName: string;
+  public
+    procedure Read; override;
+    procedure Write; override;
+    property Address: string read FAddress write FAddress;
+    property DataBaseKind: TDataBaseKind read FDataBaseKind write FDataBaseKind
+      default dbkRemote;
+    property DataBaseName: string read FDataBaseName write FDataBaseName;
+    property PassWord: string read FPassWord write FPassWord;
+    property Port: Integer read FPort write FPort;
+    property ProviderName: string read FProviderName write FProviderName;
+    property UserName: string read FUserName write FUserName;
+  end;
+
+  TDirectoryInfo = class(TInfo)
+  private
+    FRoot: string;
+    function GetBin: string;
+    function GetbinPlugin: string;
+    function Getbpl: string;
+    function Getdcp: string;
+    function Getdcu: string;
+    function GetDocument: string;
+    function Geticon: string;
+    function GetImages: string;
+    function GetReport: string;
+    function GetSource: string;
+    function GetSourcePlugin: string;
+  public
+    procedure CreateDirectory;
+    procedure Read; override;
+    procedure Write; override;
+    property Bin: string read GetBin;
+    property binPlugin: string read GetbinPlugin;
+    property bpl: string read Getbpl;
+    property dcp: string read Getdcp;
+    property dcu: string read Getdcu;
+    property Document: string read GetDocument;
+    property icon: string read Geticon;
+    property Images: string read GetImages;
+    property Report: string read GetReport;
+    property Root: string read FRoot write FRoot;
+    property Source: string read GetSource;
+    property SourcePlugin: string read GetSourcePlugin;
+  end;
+
+
+
+  TProjectInfo = class(TInfo)
+  private
+    FAuthor: string;
+    FcnName: string;
+    FDataBaseInfo: TDataBaseInfo;
+    FDeveloperName: string;
+    FDirectoryInfo: TDirectoryInfo;
+    FexeName: string;
+    FVersion: string;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Read; override;
+    procedure Write; override;
+    property Author: string read FAuthor write FAuthor;
+    property cnName: string read FcnName write FcnName;
+    property DataBaseInfo: TDataBaseInfo read FDataBaseInfo write FDataBaseInfo;
+    property DeveloperName: string read FDeveloperName write FDeveloperName;
+    property DirectoryInfo: TDirectoryInfo read FDirectoryInfo write
+      FDirectoryInfo;
+    property exeName: string read FexeName write FexeName;
+    property Version: string read FVersion write FVersion;
+  end;
+
+
+
+implementation
+
+uses
+  Dialogs;
+
+{
+******************************** TDataBaseInfo *********************************
+}
+
+procedure TDataBaseInfo.Read;
+begin
+  FProviderName := Fini.ReadString('SOFTWARE\IMPETUS\', 'ProviderName', '');
+
+  FAddress := Fini.ReadString('SOFTWARE\IMPETUS\', 'Address', '');
+  FPort := Fini.ReadInteger('SOFTWARE\IMPETUS\', 'Port', -1);
+
+  FDataBaseName := Fini.ReadString('SOFTWARE\IMPETUS\', 'DataBaseName', '');
+  FUserName := Fini.ReadString('SOFTWARE\IMPETUS\', 'UserName', '');
+  FPassWord := Fini.ReadString('SOFTWARE\IMPETUS\', 'PassWord', '');
+
+  if Fini.ReadString('SOFTWARE\IMPETUS\', 'dbType', '') = 'dbkLocate' then
+    FDataBaseKind := dbkLocate
+  else FDataBaseKind := dbkRemote;
+end;
+
+procedure TDataBaseInfo.Write;
+var
+  sDataBaseKind: string;
+begin
+  if FDataBaseKind = dbkLocate then
+    sDataBaseKind := 'dbkLocate'
+  else sDataBaseKind := 'dbkRemote';
+  
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'dbType', sDataBaseKind);
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'Address', FAddress);
+  Fini.WriteInteger('SOFTWARE\IMPETUS\', 'Port', FPort);
+
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'ProviderName', ProviderName);
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'DataBaseName', FDataBaseName);
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'UserName', FUserName);
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'PassWord', FPassWord);
+end;
+
+{
+******************************** TDirectoryInfo ********************************
+}
+
+
+
+procedure TDirectoryInfo.CreateDirectory;
+{-------------------------------------------------------------------------------
+  过程名:    TDirectoryInfo.CreateDirectory
+  作者:      hua
+  日期:      2009.09.18
+  参数:      无
+  返回值:    无
+  详细说明:  创建目录结构
+
+-------------------------------------------------------------------------------}
+begin
+  if Length(Trim(Root)) = 0 then exit;
+
+  ForceDirectories(bin);
+  ForceDirectories(Document);
+  ForceDirectories(Dcu);
+  ForceDirectories(Report);
+  ForceDirectories(BinPlugin);
+  ForceDirectories(SourcePlugin);
+  ForceDirectories(images);
+  ForceDirectories(bpl);
+  ForceDirectories(dcp);
+end;
+
+function TDirectoryInfo.GetBin: string;
+begin
+  Result := FormatPath(Root + 'Bin');
+end;
+
+function TDirectoryInfo.GetbinPlugin: string;
+begin
+  Result := FormatPath(FormatPath(Bin) + 'Plugin');
+end;
+
+function TDirectoryInfo.Getbpl: string;
+begin
+  Result := FormatPath(FormatPath(Bin) + 'bpl');
+end;
+
+function TDirectoryInfo.Getdcp: string;
+begin
+  Result := FormatPath(FormatPath(Bin) + 'Dcp');
+end;
+
+function TDirectoryInfo.Getdcu: string;
+begin
+  Result := FormatPath(FormatPath(Root) + 'Dcu');
+end;
+
+function TDirectoryInfo.GetDocument: string;
+begin
+  Result := FormatPath(FormatPath(Root) + 'Document');
+end;
+
+function TDirectoryInfo.Geticon: string;
+begin
+  Result := FormatPath(FormatPath(Root) + 'ICON');
+end;
+
+function TDirectoryInfo.GetImages: string;
+begin
+  Result := FormatPath(FormatPath(Root) + 'Images');
+end;
+
+function TDirectoryInfo.GetReport: string;
+begin
+  Result := FormatPath(FormatPath(Root) + 'Report');
+end;
+
+function TDirectoryInfo.GetSource: string;
+begin
+  Result := FormatPath(FormatPath(Root) + 'Source');
+//  Showmessage('Source:' +  Result);
+end;
+
+function TDirectoryInfo.GetSourcePlugin: string;
+begin
+  Result := FormatPath(FormatPath(Source) + 'Plugin');
+//  Showmessage('SourcePlugin:' +  Result);
+end;
+
+
+
+procedure TDirectoryInfo.Read;
+{-------------------------------------------------------------------------------
+  过程名:    TDirectoryInfo.Read
+  作者:      hua
+  日期:      2009.09.18
+  参数:      无
+  返回值:    无
+  详细说明:  读取目录信息
+
+-------------------------------------------------------------------------------}
+begin
+  FRoot := Fini.ReadString('SOFTWARE\IMPETUS\', 'Root', '');
+  if Length(TRim(FRoot)) = 0 then
+    FRoot := ''
+  else FRoot := FormatPath(FRoot);
+end;
+
+procedure TDirectoryInfo.Write;
+{-------------------------------------------------------------------------------
+  过程名:    TDirectoryInfo.Write
+  作者:      hua
+  日期:      2009.09.18
+  参数:      无
+  返回值:    无
+  详细说明:  写入目录信息
+
+-------------------------------------------------------------------------------}
+begin
+  FRoot := FormatPath(FRoot);
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'Root', FRoot);
+end;
+
+{
+************************************ TInfo *************************************
+}
+
+constructor TInfo.Create;
+begin
+  inherited Create;
+  FIni := TRegIniFile.Create();
+  FIni.RootKey := HKEY_LOCAL_MACHINE;
+end;
+
+destructor TInfo.Destroy;
+begin
+  FIni.CloseKey;
+  FreeAndNil(FIni);
+  inherited Destroy;
+end;
+
+function TInfo.FormatPath(sPath: string): string;
+begin
+  Result := IncludeTrailingBackslash(sPath);
+end;
+
+{
+********************************** TMyProject **********************************
+}
+
+function TMyProject.getDataBaseInfo: TDataBaseInfo;
+begin
+  Result := TDataBaseInfo.Create;
+  Result.Read;
+end;
+
+function TMyProject.getDirectory: TDirectoryInfo;
+begin
+  Result := TDirectoryInfo.Create;
+  Result.Read;
+end;
+
+function TMyProject.getMyProject: TProjectInfo;
+begin
+  Result := TProjectInfo.Create;
+  Result.Read;
+end;
+
+{
+********************************* TProjectInfo *********************************
+}
+
+constructor TProjectInfo.Create;
+begin
+  inherited Create;
+  FDataBaseInfo := TDataBaseInfo.Create();
+  FDataBaseInfo.Read;
+  FDirectoryInfo := TDirectoryInfo.Create();
+  FDirectoryInfo.Read;
+end;
+
+destructor TProjectInfo.Destroy;
+begin
+  FreeAndNil(FDirectoryInfo);
+  FreeAndNil(FDataBaseInfo);
+  inherited Destroy;
+end;
+
+procedure TProjectInfo.Read;
+begin
+  FexeName := Fini.ReadString('SOFTWARE\IMPETUS\', 'ProjectName', '');
+  FCNName := Fini.ReadString('SOFTWARE\IMPETUS\', 'ProjectCNName', '');
+  FDeveloperName := Fini.ReadString('SOFTWARE\IMPETUS\', 'DeveloperName', '');
+  FAuthor := Fini.ReadString('SOFTWARE\IMPETUS\', 'Author', '');
+  FVersion := Fini.ReadString('SOFTWARE\IMPETUS\', 'Versions', '');
+end;
+
+procedure TProjectInfo.Write;
+begin
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'Versions', FVersion);
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'ProjectName', FexeName);
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'ProjectCNName', FCNName);
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'DeveloperName', FDeveloperName);
+  Fini.WriteString('SOFTWARE\IMPETUS\', 'Author', FAuthor);
+end;
+
+
+end.
+

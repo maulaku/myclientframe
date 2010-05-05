@@ -1,0 +1,281 @@
+unit uPackProject;
+
+interface
+
+uses
+  ToolsAPI, SysUtils, uMyProject;
+
+type
+  //编译模式
+  TCompileMode = (cmDebug, cmRelease);
+  TPackProject = class(TObject)
+  private
+    FCompileMode: TCompileMode;
+    FParams: string;
+    FProjectInfo: TProjectInfo;
+    function FindModuleInterface(AInterface: TGUID): IUnknown;
+    function FormatPath(APath: string): string;
+    function GetBinDir: string;
+    function GetCurrentProject: IOTAProject;
+    function GetDcuDir: string;
+    function GetexeName: string;
+    function GetExtName: string;
+    function GetHostApplication: string;
+    function GetParams: string;
+    function GetProjectBuilder: IOTAProjectBuilder;
+    function GetProjectGroup: IOTAProjectGroup;
+    function GetProjectOptions: IOTAProjectOptions;
+    procedure SetEnvironment;
+    property BinDir: string read GetBinDir;
+    property CompileMode: TCompileMode read FCompileMode write FCompileMode
+      default cmDebug;
+    property DcuDir: string read GetDcuDir;
+    property ExtName: string read GetExtName;
+    property HostApplication: string read GetHostApplication;
+    property Params: string read GetParams write FParams;
+    property ProjectBuilder: IOTAProjectBuilder read GetProjectBuilder;
+
+  protected
+    property exeName: string read GetexeName;
+    property ProjectOptions: IOTAProjectOptions read GetProjectOptions;
+  public
+    CurrentProject: IOTAProject;
+    constructor Create;
+    destructor Destroy; override;
+    procedure Compile(ACompileMode: TCompileMode);
+    function getCurrentModule: IOTAModule;
+    procedure Run;
+    procedure SetCompileParam(Project: IOTAProject);
+    property ProjectGroup: IOTAProjectGroup read GetProjectGroup;
+  end;
+
+implementation
+
+uses
+  ShellAPI, Windows, Dialogs;
+
+{
+********************************* TPackProject *********************************
+}
+
+constructor TPackProject.Create;
+begin
+  inherited Create;
+  //取得当前工程;
+  CurrentProject := GetCurrentProject;
+  //取得预设的工程配置信息.
+  FProjectInfo := TProjectInfo.Create();
+end;
+
+destructor TPackProject.Destroy;
+begin
+  FreeAndNil(FProjectInfo);
+  inherited Destroy;
+end;
+
+procedure TPackProject.Compile(ACompileMode: TCompileMode);
+begin
+  CompileMode := ACompileMode;
+  //设置环境
+  SetEnvironment;
+
+  ProjectBuilder.BuildProject(cmOTAMake, False);
+  if ProjectBuilder.ShouldBuild and not ProjectBuilder.BuildProject(cmOTAMake, False) then Exit;
+end;
+
+function TPackProject.FindModuleInterface(AInterface: TGUID): IUnknown;
+var
+  I: Integer;
+begin
+  Result := nil;
+  with BorlandIDEServices as IOTAModuleServices do
+    for I := 0 to ModuleCount - 1 do
+      if (Modules[I].QueryInterface(AInterface, Result) = S_OK) then
+        Break;
+end;
+
+function TPackProject.FormatPath(APath: string): string;
+begin
+  if APath[Length(APath)] <> '\' then
+    APath := aPath + '\';
+  result := APath;
+end;
+
+function TPackProject.GetBinDir: string;
+begin
+  Result := FormatPath(FProjectInfo.DirectoryInfo.Bin);
+end;
+
+function TPackProject.getCurrentModule: IOTAModule;
+var
+  Svc: IOTAModuleServices;
+  AModule, NewModule: IOTAModule;
+begin
+  Result := nil;
+  Svc := (BorlandideServices as IOTAModuleServices);
+  AModule := Svc.CurrentModule;
+
+  if AModule <> nil then
+  begin
+    if AModule.QueryInterface(IOTAProject, NewModule) = S_OK then
+      Result := NewModule
+    else if AModule.OwnerModuleCount > 0 then
+    begin
+      NewModule := AModule.OwnerModules[0];
+      if NewModule <> nil then
+        if NewModule.QueryInterface(IOTAProject, Result) <> S_OK then
+          Result := nil;
+    end;
+  end;
+end;
+
+function TPackProject.GetCurrentProject: IOTAProject;
+//var
+//  ProjectGroup: IOTAProjectGroup;
+//begin
+//  ProjectGroup := ProjectGroup;
+//  if Assigned(ProjectGroup) then
+//    Result := ProjectGroup.ActiveProject
+//  else
+//    Result := FindModuleInterface(IOTAProject) as IOTAProject;
+//end;
+var
+  Services: IOTAModuleServices;
+  Module: IOTAModule;
+  Project: IOTAProject;
+  ProjectGroup: IOTAProjectGroup;
+  MultipleProjects: Boolean;
+  I: Integer;
+begin
+  Result := nil;
+  MultipleProjects := False;
+  Services := BorlandIDEServices as IOTAModuleServices;
+  for I := 0 to Services.ModuleCount - 1 do
+  begin
+    Module := Services.Modules[i];
+    if Module.QueryInterface(IOTAProjectGroup, ProjectGroup) = S_OK then
+    begin
+      Result := ProjectGroup.ActiveProject;
+      Exit;
+    end
+    else if Module.QueryInterface(IOTAProject, Project) = S_OK then
+    begin
+      if Result = nil then
+//查找第一个项目，并保存起来
+        Result := Project
+      else
+        MultipleProjects := True;
+    end;
+  end;
+  if MultipleProjects then
+    Result := nil;
+end;
+
+function TPackProject.GetDcuDir: string;
+begin
+  Result := FormatPath(FProjectInfo.DirectoryInfo.dcu);
+end;
+
+function TPackProject.GetexeName: string;
+begin
+  if Assigned(CurrentProject) then
+    Result := CurrentProject.FileName
+  else Result := '';
+end;
+
+function TPackProject.GetExtName: string;
+begin
+  Result := ExtractFileExt(exeName);
+end;
+
+function TPackProject.GetHostApplication: string;
+begin
+  Result := FormatPath(FormatPath(FProjectInfo.DirectoryInfo.Bin) + FProjectInfo.exeName);
+end;
+
+function TPackProject.GetParams: string;
+begin
+  Result := FParams;
+end;
+
+function TPackProject.GetProjectBuilder: IOTAProjectBuilder;
+begin
+  Result := CurrentProject.ProjectBuilder;
+end;
+
+function TPackProject.GetProjectGroup: IOTAProjectGroup;
+//begin
+//  Result := FindModuleInterface(IOTAProjectGroup) as IOTAProjectGroup;
+//end;
+var
+  IModuleServices: IOTAModuleServices;
+  IModule: IOTAModule;
+  IProjectGroup: IOTAProjectGroup;
+  i: Integer;
+begin
+  Result := nil;
+  IModuleServices := BorlandIDEServices as IOTAModuleServices;
+  for i := 0 to IModuleServices.ModuleCount - 1 do
+  begin
+    IModule := IModuleServices.Modules[i];
+    if IModule.QueryInterface(IOTAProjectGroup, IProjectGroup) = S_OK then
+    begin
+      Result := IProjectGroup;
+      Break;
+    end;
+  end;
+end;
+
+
+function TPackProject.GetProjectOptions: IOTAProjectOptions;
+begin
+  Result := CurrentProject.ProjectOptions;
+end;
+
+procedure TPackProject.Run;
+begin
+  if FileExists(exeName) then
+    ShellExecute(0, 'open', PChar(ExeName), PChar(Params),
+      PChar(ExtName), SW_SHOWNORMAL);
+end;
+
+procedure TPackProject.SetCompileParam(Project: IOTAProject);
+var
+  ProjectInfo: TProjectInfo;
+begin
+  CurrentProject := Project;
+
+  ProjectInfo := TProjectInfo.Create;
+  try
+    ProjectOptions.Values['OutPutDir'] := FormatPath(ProjectInfo.DirectoryInfo.Bin);
+//    ShowMessage(ProjectInfo.DirectoryInfo.binPlugin);
+    ProjectOptions.Values['HostApplication'] := FormatPath(ProjectInfo.DirectoryInfo.Bin) + ProjectInfo.exeName;
+    ProjectOptions.Values['UnitOutputDir'] := FormatPath(ProjectInfo.DirectoryInfo.DCU);
+    ProjectOptions.Values['Packages'] := 'vcl;rtl;iPack';
+    ProjectOptions.Values['UsePackages'] := 1;
+    ProjectOptions.Values['Conditionals'] := 'DEBUG';
+    ProjectOptions.Values['UsePackages'] := 1;
+  finally
+    FreeAndNil(ProjectInfo);
+  end;
+{$IFDEF Ver160}
+    //ShowMessage('你使用的是Delphi 7.0 的版本');
+{$ENDIF}
+
+end;
+
+procedure TPackProject.SetEnvironment;
+begin
+  ProjectOptions.Values['OutPutDir'] := BinDir;
+  ProjectOptions.Values['HostApplication'] := HostApplication;
+  ProjectOptions.Values['UnitOutputDir'] := DcuDir;
+  ProjectOptions.Values['Packages'] := 'vcl;rtl;iPack';
+  ProjectOptions.Values['UsePackages'] := 1;
+  if CompileMode = cmdebug then
+    ProjectOptions.Values['Conditionals'] := 'DEBUG'
+  else ProjectOptions.Values['Conditionals'] := 'Release';
+  ProjectOptions.Values['UsePackages'] := 1;
+end;
+
+end.
+
